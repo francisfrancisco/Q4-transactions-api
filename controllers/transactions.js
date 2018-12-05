@@ -17,7 +17,7 @@ module.exports = {
 
 
   update: (req, res) => {
-    knex(transactions)
+    knex('transactions')
       .where('id', req.params.id)
       .update({
         amount: req.body.amount,
