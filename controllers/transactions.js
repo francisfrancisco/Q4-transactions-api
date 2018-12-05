@@ -13,7 +13,7 @@ module.exports = {
         .then((results) => {
           res.json(results[0])
         })
-      }
+      },
 
 
   update: (req, res) => {
