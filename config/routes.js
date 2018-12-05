@@ -5,6 +5,8 @@ module.exports = function(app) {
   //users
 
   //transactions
-  app.get('/transactions', transactions.index);
-  app.get('/transactions/:id', transactions.getOne);
+  app.get('/api/transactions', transactions.index);
+  app.get('/api/transactions/:id', transactions.getOne);
+  app.patch('/api/transactions/edit/:id', transactions.update);
+  
 }
