@@ -11,33 +11,46 @@ module.exports = {
         transaction_type,
         business_name
       }, '*')
-      .then(newTransaction => {
-        res.json(newTransaction);
+      .then(result => {
+        res.json(result[0]);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        res.status(422).send({message: err})
+      });
   },
+
   delete: (req,res) => {
     knex('transactions').where('id', req.params.id)
     .del()
     .then(() => {
-        res.sendStatus(200)
+        res.status(200).send({message:"Successfully deleted transaction!"})
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        res.status(422).send({message: err})
+      })
   },
 
-    index: function(req, res) {
-        knex('transactions')
-        .then((results) => {
-          res.json(results)
-      })
-     },
-     getOne: (req,res) => {
-        knex('transactions').where('id', req.params.id)
-        .then((results) => {
-          res.json(results[0])
-        })
-      },
+  index: function(req, res) {
+    let page = 1;
+    if(req.query.page){
+      page = Number(req.query.page)
+    }
+      knex('transactions').orderBy('id', 'asc').offset((page-1) * 50).limit(50)
+      .then((results) => {
+        res.json(results)
+    }).catch((err) => {
+      res.status(422).send({message: err})
+    })
+   },
 
+   getOne: (req,res) => {
+      knex('transactions').where('id', req.params.id)
+      .then((results) => {
+        res.json(results[0])
+      }).catch((err) => {
+        res.status(422).send({message: err})
+      })
+    },
 
   update: (req, res) => {
     knex('transactions')
@@ -46,11 +59,11 @@ module.exports = {
         amount: req.body.amount,
         transaction_type: req.body.transaction_type,
         business_name: req.body.business_name
+      },'*')
+      .then((results) => {
+        res.json(results[0])
+      }).catch(err => {
+        res.status(422).send({message: err})
       })
-      .then( () => {
-        res.sendStatus(200);
-      })
-  },
-
-
+  }
 };

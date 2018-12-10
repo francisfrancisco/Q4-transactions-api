@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
     .inTable('users')
     .onDelete('CASCADE')
     .index();
-    table.integer('amount');
+    table.decimal('amount',14,2);
     table.string('transaction_type');
     table.string('business_name');
     table.timestamps(true, true);
