@@ -8,9 +8,9 @@ module.exports = function(app) {
   app.post('/users', users.create);
   app.post('/sessions', users.login);
 
-  // app.use(verifyToken);
-  //
-  // app.get('/user', users.verify);
+  app.use(verifyToken);
+
+  app.get('/user', users.verify);
   //transactions
 
   app.post('/api/transactions', transactions.create);
