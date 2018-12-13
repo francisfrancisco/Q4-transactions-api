@@ -10,7 +10,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const corsWhitelist = ['http://localhost:3000'];
 let corsOptions = {
   origin: (origin, callback) => {
-    console.log(origin);
     if(corsWhitelist.indexOf(origin) !== -1){
       callback(null, true);
     } else {
