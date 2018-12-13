@@ -6,7 +6,19 @@ const port = process.env.PORT || 8000;
 const cors = require('cors');
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+
+const corsWhitelist = ['http://localhost:3000'];
+let corsOptions = {
+  origin: (origin, callback) => {
+    console.log(origin);
+    if(corsWhitelist.indexOf(origin) !== -1){
+      callback(null, true);
+    } else {
+      callback(null, false)
+    }
+  }
+}
+app.use(cors(corsOptions));
 
 var routes_setter = require('./config/routes.js');
 routes_setter(app);
